@@ -45,7 +45,6 @@ if 'search_result' in st.session_state:
         st.write("상위 20행 미리보기:")
         st.dataframe(search_result.head(20))
         
-        # CSV 다운로드 기능
         csv_data = search_result.to_csv(index=False).encode('utf-8-sig')
         kwd = st.session_state.get('search_keyword', 'result')
         st.download_button(
