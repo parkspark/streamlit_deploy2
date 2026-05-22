@@ -8,7 +8,7 @@ def load_marketing():
     df['Date'] = pd.to_datetime(df['Date'])
     return df
 
-st.title("🔍 마케팅 캠페인 대시보드 (상세 분석)")
+st.title("🔍 마케팅 캠페인 대시보드 (상세 분석) 및 CSV 다운로드")
 df = load_marketing()
 
 st.subheader("키워드 검색")
