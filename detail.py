@@ -13,20 +13,43 @@ df = load_marketing()
 
 st.subheader("키워드 검색")
 with st.form("search_form"):
-    keyword = st.text_input("검색할 키워드를 입력하세요:")
+    st.caption("💡 검색 예시: 단일 키워드(`Google`), 여러 키워드 중 하나(`Google|Facebook`), 정규표현식(`^New.*`) 등")
+    keyword = st.text_input("검색할 키워드 또는 정규표현식을 입력하세요:", placeholder="예: Google|Facebook")
     submitted = st.form_submit_button("검색")
 
-    if submitted:
-        if keyword:
-            mask = df.astype(str).apply(lambda x: x.str.contains(keyword, case=False, na=False)).any(axis=1)
-            search_result = df[mask]
-            
-            st.success(f"총 {len(search_result):,}개의 검색 결과가 있습니다.")
-            if not search_result.empty:
-                st.write("상위 20행 미리보기:")
-                st.dataframe(search_result.head(20))
-        else:
-            st.warning("검색어를 입력해주세요.")
+if submitted:
+    if keyword:
+        try:
+            # 행(Row) 단위로 데이터를 하나의 문자열로 합친 후 정규식 검사
+            mask = df.astype(str).apply(lambda x: ' '.join(x), axis=1).str.contains(keyword, case=False, na=False, regex=True)
+            st.session_state['search_result'] = df[mask]
+            st.session_state['search_keyword'] = keyword
+        except Exception as e:
+            st.error(f"잘못된 정규표현식입니다. 에러 메시지: {e}")
+            if 'search_result' in st.session_state:
+                del st.session_state['search_result']
+    else:
+        st.warning("검색어를 입력해주세요.")
+        if 'search_result' in st.session_state:
+            del st.session_state['search_result']
+
+if 'search_result' in st.session_state:
+    search_result = st.session_state['search_result']
+    st.success(f"총 {len(search_result):,}개의 검색 결과가 있습니다.")
+    
+    if not search_result.empty:
+        st.write("상위 20행 미리보기:")
+        st.dataframe(search_result.head(20))
+        
+        # CSV 다운로드 기능
+        csv_data = search_result.to_csv(index=False).encode('utf-8-sig')
+        kwd = st.session_state.get('search_keyword', 'result')
+        st.download_button(
+            label="📥 검색 결과 CSV 다운로드",
+            data=csv_data,
+            file_name=f"search_result_{kwd}.csv",
+            mime="text/csv"
+        )
 
 st.divider()
 st.subheader("CSV 파일 업로드 및 분석")
