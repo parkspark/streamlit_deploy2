@@ -6,7 +6,7 @@ import plotly.express as px
 @st.cache_data
 def load_marketing():
     df = pd.read_csv("data/marketing_campaign_dataset.csv")
-    df['Acquisition_Cost'] = df['Acquisition_Cost'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['Acquisition_Cost'] = df['Acquisition_Cost'].replace({r'\$': '', ',': ''}, regex=True).astype(float)
     df['Date'] = pd.to_datetime(df['Date'])
     return df
 

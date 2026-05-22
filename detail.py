@@ -4,7 +4,7 @@ import pandas as pd
 @st.cache_data
 def load_marketing():
     df = pd.read_csv("data/marketing_campaign_dataset.csv")
-    df['Acquisition_Cost'] = df['Acquisition_Cost'].replace({'\$': '', ',': ''}, regex=True).astype(float)
+    df['Acquisition_Cost'] = df['Acquisition_Cost'].replace({r'\$': '', ',': ''}, regex=True).astype(float)
     df['Date'] = pd.to_datetime(df['Date'])
     return df
 
@@ -20,10 +20,13 @@ with st.form("search_form"):
 if submitted:
     if keyword:
         try:
+            import time
+            start_time = time.time()
             # 행(Row) 단위로 데이터를 하나의 문자열로 합친 후 정규식 검사
             mask = df.astype(str).apply(lambda x: ' '.join(x), axis=1).str.contains(keyword, case=False, na=False, regex=True)
             st.session_state['search_result'] = df[mask]
             st.session_state['search_keyword'] = keyword
+            st.session_state['search_time'] = time.time() - start_time
         except Exception as e:
             st.error(f"잘못된 정규표현식입니다. 에러 메시지: {e}")
             if 'search_result' in st.session_state:
@@ -35,7 +38,8 @@ if submitted:
 
 if 'search_result' in st.session_state:
     search_result = st.session_state['search_result']
-    st.success(f"총 {len(search_result):,}개의 검색 결과가 있습니다.")
+    search_time = st.session_state.get('search_time', 0.0)
+    st.success(f"총 {len(search_result):,}개의 검색 결과가 있습니다. (⏱️검색 소요 시간: {search_time:.3f}초)")
     
     if not search_result.empty:
         st.write("상위 20행 미리보기:")
