@@ -68,3 +68,6 @@ if uploaded is not None:
         st.dataframe(user_df.describe())
     except Exception as e:
         st.error(f"파일을 읽는 중 오류가 발생했습니다: {e}")
+
+if st.button("풍선!!!!"):
+    st.balloons()
