@@ -1,6 +1,12 @@
 ### marketing_campaign_dataset 데이터셋에서 인사이트를 정리
 
-1. 효율성 분석 (Performance Metrics)
+<img width="1239" height="983" alt="Image" src="https://github.com/user-attachments/assets/78ffe6a0-4012-4e0a-96d0-05ad3893d5dd" />
+
+CSV 파일을 넣어 대략적으로 확인하고, 위에서 정규표현식을 통해 검색한 뒤, 조회된 dataframe 을 CSV 파일로 다운로드 가능.
+###### 제일 아래에 풍선!
+
+
+### 1. 효율성 분석 (Performance Metrics)
 #### 투자 대비 효과(ROI): 
 캠페인에 투입한 비용 대비 얼마만큼의 이익을 창출했는지를 보여주는 가장 중요한 지표. ROI가 높다는 것은 해당 타겟과 채널 조합이 비용 효율적임을 의미.
 
@@ -10,14 +16,14 @@
 #### 획득 비용(Acquisition Cost, CAC): 
 고객 한 명을 확보하는 데 드는 비용. 다른 캠페인들과 비교하여 이 비용이 적정 수준인지 판단.
 
-2. 채널 및 타겟 최적화 (Channel & Targeting)
+### 2. 채널 및 타겟 최적화 (Channel & Targeting)
 #### 채널 효율성: 
 데이터상의 'Google Ads' 외에 다른 채널(SNS, 검색 등)과 비교했을 때, 어떤 채널이 가장 높은 전환을 끌어내는지 분석함.
 
 #### 타겟 세분화(Segmentation): 
 'Men 18-24'와 같은 타겟층이 특정 채널에서 높은 성과를 내는지 확인하여, 예산을 고효율 타겟에게 집중(Scale-up)할지 결정할 수 있다.
 
-3. 광고 도달 및 품질 분석 (Engagement Metrics)
+### 3. 광고 도달 및 품질 분석 (Engagement Metrics)
 #### 클릭률(CTR = Clicks / Impressions): 
 광고가 노출되었을 때 사용자가 얼마나 관심을 가졌는지를 나타냄.
 
